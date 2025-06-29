@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: yossefazozz/k8s_nodejs:v1
+          ports:
+            - containerPort: 5000
+          
+          env:
+          - name: MODE
+            valueFrom:
+              configMapKeyRef:
+                name: myapp-config
+                key: MODE
+          - name: Port
+            valueFrom:  
+              configMapKeyRef:
+                name: myapp-config
+                key: Port
+          - name: EMAIL
+            valueFrom:  
+              configMapKeyRef:
+                name: myapp-config
+                key: EMAIL
+          - name: cloud_name
+            valueFrom:  
+              configMapKeyRef:
+                name: myapp-config
+                key: cloud_name
+          - name: connection
+            valueFrom:
+              secretKeyRef:
+                name: myapp-secret
+                key: connection
+          - name: TOKEN_SIGNATURE
+            valueFrom:
+              secretKeyRef:
+                name: myapp-secret
+                key: TOKEN_SIGNATURE
+          - name: BEARER_TOKEN
+            valueFrom:  
+              secretKeyRef:
+                name: myapp-secret
+                key: BEARER_TOKEN
+          - name: SALT_ROUND
+            valueFrom:
+              secretKeyRef:
+                name: myapp-secret
+                key: SALT_ROUND
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: myapp-secret
+                key: SECRET_KEY
+          - name: EMAIL_PASSWORD
+            valueFrom:  
+              secretKeyRef:
+                name: myapp-secret
+                key: EMAIL_PASSWORD
+          - name: api_key
+            valueFrom:  
+              secretKeyRef:
+                name: myapp-secret
+                key: api_key
+          - name: api_secret
+            valueFrom:  
+              secretKeyRef:
+                name: myapp-secret
+                key: api_secret
+          - name: CLIENT_ID
+            valueFrom:  
+              secretKeyRef:
+                name: myapp-secret
+                key: CLIENT_ID
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "200m"
+            limits:
+              memory: "300Mi"
+              cpu: "300m"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /data
+
+      volumes:
+        - name: config-volume
+          emptyDir: {}

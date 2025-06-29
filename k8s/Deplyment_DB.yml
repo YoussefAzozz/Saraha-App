@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appmongodb
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: appmongodb
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 10
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  template:
+    metadata:
+      labels:
+        app: appmongodb
+    spec:
+      containers:
+        - name: appmongodb
+          image: mongo:latest
+          ports:
+          - containerPort: 27017
+          env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: "YWRtaW4="
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: "cGFzc3dvcmQ="
+          resources:
+            requests:
+              memory: "150Mi"
+              cpu: "200m"
+            limits:
+              memory: "300Mi"
+              cpu: "300m"
+          volumeMounts:
+          - name: config-volume
+            mountPath: /data/db
+      volumes:
+      - name: config-volume
+        emptyDir: {}
+        
+        
+          
