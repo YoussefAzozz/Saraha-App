@@ -6,10 +6,7 @@ export const validFileExtensions = {
     image:['image/png','image/jpg','image/jpeg','image/gif','image/svg'],
     file: ['application/pdf','application/msword']
 }
-// const mapFileExtens = new Map();
-// mapFileExtens.set('image',['image/png','image/jpg','image/jpeg','image/gif','image/svg']);
-// mapFileExtens.set('file',['application/pdf','application/msword']);
-// export const filesExts = mapFileExtens;
+
 
 export function uploadFile(validationFile=[]) {
 

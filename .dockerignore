@@ -1,4 +1,6 @@
 Dockerfile
 docker-compose.yml
 config/
+k8s/
+node_modules/
 .dockerignore

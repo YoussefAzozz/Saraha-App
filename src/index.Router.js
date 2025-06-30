@@ -3,12 +3,11 @@ import authRouter from "./modules/auth/Auth.Router.js";
 import userRouter from "./modules/user/User.Router.js";
 import globalErrorHandlong from "./utils/GlobalErrorHadnling.js";
 import messageRouter from "./modules/message/Message.Router.js"; 
-import cors from "cors";
+
 
 
 
 const boostrap = (app,express)=>{
-    app.use(cors());
     
     app.use("/uploads",express.static("uploads"));
     app.use(express.json());

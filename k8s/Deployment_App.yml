@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: myapp
-          image: yossefazozz/k8s_nodejs:v1
+          image: yossefazozz/k8s_nodejs:v2.0
           ports:
             - containerPort: 5000
           
